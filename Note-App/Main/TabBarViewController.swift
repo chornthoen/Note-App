@@ -7,23 +7,39 @@
 
 import UIKit
 
-class TabBarViewController: UIViewController {
+class TabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.tabBar.backgroundColor = .white
+        setupViewControllers()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupViewControllers() {
+        let folderViewController = FolderViewController()
+        folderViewController.title = "Folders"
+        folderViewController.tabBarItem = UITabBarItem(title: "Folder", image: UIImage(systemName: "folder"), tag: 0)
+        let homeNavController = UINavigationController(rootViewController: folderViewController)
+        homeNavController.tabBarItem.selectedImage = UIImage(systemName: "folder.fill")
+        
+        
+        let profileViewController = SettingViewController()
+        profileViewController.title = "Setting"
+        profileViewController.tabBarItem = UITabBarItem(title: "Setting", image: UIImage(systemName: "gearshape"), tag: 1)
+        profileViewController.tabBarItem.selectedImage = UIImage(systemName: "gearshape.fill")
+        let profileNavController = UINavigationController(rootViewController: profileViewController)
+        
+        self.viewControllers = [homeNavController, profileNavController]
     }
-    */
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
 }
+

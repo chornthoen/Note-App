@@ -17,6 +17,14 @@
 		B03A297D2C0074C200B06A2E /* Note_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03A297C2C0074C200B06A2E /* Note_AppTests.swift */; };
 		B03A29872C0074C200B06A2E /* Note_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03A29862C0074C200B06A2E /* Note_AppUITests.swift */; };
 		B03A29892C0074C200B06A2E /* Note_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03A29882C0074C200B06A2E /* Note_AppUITestsLaunchTests.swift */; };
+		B03A29992C00752100B06A2E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03A29982C00752100B06A2E /* LoginViewController.swift */; };
+		B03A299E2C007E8D00B06A2E /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03A299D2C007E8D00B06A2E /* FolderViewController.swift */; };
+		B03A29A02C007E9F00B06A2E /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03A299F2C007E9F00B06A2E /* SettingViewController.swift */; };
+		B03A29A22C007F8A00B06A2E /* CreateFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03A29A12C007F8A00B06A2E /* CreateFolderViewController.swift */; };
+		B0A53DFD2C019A1D00D7B920 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A53DFC2C019A1D00D7B920 /* Models.swift */; };
+		B0A53DFF2C019B9E00D7B920 /* FolderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A53DFE2C019B9E00D7B920 /* FolderCollectionViewCell.swift */; };
+		B0A53E012C01A4C000D7B920 /* DetailFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A53E002C01A4C000D7B920 /* DetailFolderViewController.swift */; };
+		B0E230B62C01883700B7C736 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E230B52C01883700B7C736 /* TabBarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +59,14 @@
 		B03A29822C0074C200B06A2E /* Note-AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Note-AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B03A29862C0074C200B06A2E /* Note_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note_AppUITests.swift; sourceTree = "<group>"; };
 		B03A29882C0074C200B06A2E /* Note_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B03A29982C00752100B06A2E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B03A299D2C007E8D00B06A2E /* FolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
+		B03A299F2C007E9F00B06A2E /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		B03A29A12C007F8A00B06A2E /* CreateFolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFolderViewController.swift; sourceTree = "<group>"; };
+		B0A53DFC2C019A1D00D7B920 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		B0A53DFE2C019B9E00D7B920 /* FolderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCollectionViewCell.swift; sourceTree = "<group>"; };
+		B0A53E002C01A4C000D7B920 /* DetailFolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFolderViewController.swift; sourceTree = "<group>"; };
+		B0E230B52C01883700B7C736 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +117,10 @@
 		B03A29612C0074C000B06A2E /* Note-App */ = {
 			isa = PBXGroup;
 			children = (
+				B03A299A2C00756600B06A2E /* Main */,
+				B03A29972C00750B00B06A2E /* Auth */,
+				B03A29962C0074F300B06A2E /* Setting */,
+				B03A29952C0074E400B06A2E /* Folder */,
 				B03A29622C0074C000B06A2E /* AppDelegate.swift */,
 				B03A29642C0074C000B06A2E /* SceneDelegate.swift */,
 				B03A29662C0074C000B06A2E /* ViewController.swift */,
@@ -128,6 +148,42 @@
 				B03A29882C0074C200B06A2E /* Note_AppUITestsLaunchTests.swift */,
 			);
 			path = "Note-AppUITests";
+			sourceTree = "<group>";
+		};
+		B03A29952C0074E400B06A2E /* Folder */ = {
+			isa = PBXGroup;
+			children = (
+				B03A299D2C007E8D00B06A2E /* FolderViewController.swift */,
+				B03A29A12C007F8A00B06A2E /* CreateFolderViewController.swift */,
+				B0A53DFC2C019A1D00D7B920 /* Models.swift */,
+				B0A53DFE2C019B9E00D7B920 /* FolderCollectionViewCell.swift */,
+				B0A53E002C01A4C000D7B920 /* DetailFolderViewController.swift */,
+			);
+			path = Folder;
+			sourceTree = "<group>";
+		};
+		B03A29962C0074F300B06A2E /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				B03A299F2C007E9F00B06A2E /* SettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		B03A29972C00750B00B06A2E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				B03A29982C00752100B06A2E /* LoginViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		B03A299A2C00756600B06A2E /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B0E230B52C01883700B7C736 /* TabBarViewController.swift */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,9 +317,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0A53DFD2C019A1D00D7B920 /* Models.swift in Sources */,
 				B03A29672C0074C000B06A2E /* ViewController.swift in Sources */,
+				B03A299E2C007E8D00B06A2E /* FolderViewController.swift in Sources */,
 				B03A29632C0074C000B06A2E /* AppDelegate.swift in Sources */,
+				B0A53DFF2C019B9E00D7B920 /* FolderCollectionViewCell.swift in Sources */,
+				B03A29A02C007E9F00B06A2E /* SettingViewController.swift in Sources */,
+				B03A29A22C007F8A00B06A2E /* CreateFolderViewController.swift in Sources */,
 				B03A29652C0074C000B06A2E /* SceneDelegate.swift in Sources */,
+				B03A29992C00752100B06A2E /* LoginViewController.swift in Sources */,
+				B0A53E012C01A4C000D7B920 /* DetailFolderViewController.swift in Sources */,
+				B0E230B62C01883700B7C736 /* TabBarViewController.swift in Sources */,
 				B03A296D2C0074C000B06A2E /* Note_App.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,13 +510,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8GCCPC44B8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Note-App/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Note App";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -473,13 +540,16 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8GCCPC44B8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Note-App/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Note App";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
