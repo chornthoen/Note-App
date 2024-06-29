@@ -1,44 +1,29 @@
-//
-//  FolderViewController.swift
-//  Note-App
-//
-//  Created by Chorn Thoen on 5/24/24.
-//
-
-
 import UIKit
 
-class FolderViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CreateFolderDelegate {
+class FolderViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, CreateFolderDelegate {
     var noteList: [FolderModels] = [
-        FolderModels(
-            title: "JAVA",
-            description: "This is JAVA",
-            date: Date()
-        ),
-        FolderModels(
-            title: "Swift",
-            description: "This is Swift",
-            date: Date()
-        ),
-        FolderModels(
-            title: "Kotlin",
-            description: "This is Kotlin",
-            date: Date()
-        ),
-        FolderModels(
-            title: "Python",
-            description: "This is Python",
-            date: Date()
-        ),
+        FolderModels(title: "JAVA", description: "This is JAVA", date: Date()),
+        FolderModels(title: "Swift", description: "This is Swift", date: Date()),
+        FolderModels(title: "Kotlin", description: "This is Kotlin", date: Date()),
+        FolderModels(title: "Python", description: "This is Python", date: Date()),
     ]
     
+    var filteredNoteList: [FolderModels] = []
+    var isSearching = false
+    
     var collectionView: UICollectionView!
+    var searchBar: UISearchBar!
+    var emptyStateLabel: UILabel!
+    var searchButton: UIBarButtonItem!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemGray6
         setUpNavigationBar()
         setupCollectionView()
+        setupSearchBar()
+        setupEmptyStateLabel()
+        updateEmptyState()
     }
     
     private func setUpNavigationBar() {
@@ -48,6 +33,9 @@ class FolderViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         self.title = "Folder"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createNoteButtonTapped))
+        
+        searchButton = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
+        self.navigationItem.leftBarButtonItem = searchButton
     }
 
     @objc func createNoteButtonTapped() {
@@ -55,9 +43,38 @@ class FolderViewController: UIViewController, UICollectionViewDataSource, UIColl
         noteViewController.delegate = self
         self.navigationController?.pushViewController(noteViewController, animated: true)
     }
+
+    @objc func searchButtonTapped() {
+        navigationItem.titleView = searchBar
+        searchBar.showsCancelButton = true
+        searchBar.becomeFirstResponder()
+        searchButton.isEnabled = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
+        navigationItem.titleView = nil
+        searchButton.isEnabled = true
+        isSearching = false
+        searchBar.text = ""
+        filteredNoteList.removeAll()
+        collectionView.reloadData()
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard !searchText.isEmpty else {
+            isSearching = false
+            filteredNoteList.removeAll()
+            collectionView.reloadData()
+            return
+        }
+        isSearching = true
+        filteredNoteList = noteList.filter { $0.title.lowercased().contains(searchText.lowercased()) }
+        collectionView.reloadData()
+    }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
         collectionView.collectionViewLayout.invalidateLayout()
     }
     
@@ -81,37 +98,62 @@ class FolderViewController: UIViewController, UICollectionViewDataSource, UIColl
         ])
     }
 
+    func setupSearchBar() {
+        searchBar = UISearchBar()
+        searchBar.placeholder = "Search Folders"
+        searchBar.delegate = self
+    }
+
+    func setupEmptyStateLabel() {
+        emptyStateLabel = UILabel()
+        emptyStateLabel.text = "No Folders Available"
+        emptyStateLabel.textColor = .systemGray
+        emptyStateLabel.textAlignment = .center
+        emptyStateLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(emptyStateLabel)
+        
+        NSLayoutConstraint.activate([
+            emptyStateLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyStateLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    func updateEmptyState() {
+        emptyStateLabel.isHidden = !noteList.isEmpty
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return noteList.count
+        return isSearching ? filteredNoteList.count : noteList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FolderCollectionViewCell.identifier, for: indexPath) as! FolderCollectionViewCell
-        cell.configure(with: noteList[indexPath.row])
+        let folder = isSearching ? filteredNoteList[indexPath.row] : noteList[indexPath.row]
+        cell.configure(with: folder)
         return cell
     }
-
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let delete = UIAction(title: "Delete", image: UIImage(systemName: "trash"), attributes: .destructive) { _ in
-                    self.showDeleteConfirmationAlert(forItemAt: indexPath)
+                self.showDeleteConfirmationAlert(forItemAt: indexPath)
             }
-            let edit = UIAction(title: "Edit", image: UIImage(systemName: "pencil")) { _ in let vc = CreateFolderViewController()
-                        vc.folders = self.noteList[indexPath.row]
-                        vc.delegate = self
-            self.navigationController?.pushViewController(vc, animated: true)
+            let edit = UIAction(title: "Edit", image: UIImage(systemName: "pencil")) { _ in
+                let vc = CreateFolderViewController()
+                vc.folders = self.noteList[indexPath.row]
+                vc.delegate = self
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             return UIMenu(title: "", children: [delete, edit])
         }
         return configuration
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let vc = DetailFolderViewController()
-            vc.folder = noteList[indexPath.row]
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-
+        let vc = DetailFolderViewController()
+        vc.folder = isSearching ? filteredNoteList[indexPath.row] : noteList[indexPath.row]
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let numberOfRow: CGFloat = 4
@@ -120,10 +162,7 @@ class FolderViewController: UIViewController, UICollectionViewDataSource, UIColl
         return CGSize(width: widthCell, height: widthCell)
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 6
     }
     
@@ -135,9 +174,7 @@ class FolderViewController: UIViewController, UICollectionViewDataSource, UIColl
         return UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0)
     }
     
-    
     func showDeleteConfirmationAlert(forItemAt indexPath: IndexPath) {
-        
         let alert = UIAlertController(
             title: "Confirm Deletion",
             message: "Are you sure you want to delete this folder?",
@@ -148,8 +185,9 @@ class FolderViewController: UIViewController, UICollectionViewDataSource, UIColl
                 title: "Delete",
                 style: .destructive
             ) { _ in
-            self.deleteFolder(at: indexPath)
-        })
+                self.deleteFolder(at: indexPath)
+            }
+        )
         alert.addAction(
             UIAlertAction(
                 title: "Cancel",
@@ -161,35 +199,31 @@ class FolderViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
 
     func deleteFolder(at indexPath: IndexPath) {
-        noteList.remove(at: indexPath.row)
+        let folderToDelete = isSearching ? filteredNoteList[indexPath.row] : noteList[indexPath.row]
+        if let index = noteList.firstIndex(where: { $0.id == folderToDelete.id }) {
+            noteList.remove(at: index)
+        }
+        if isSearching {
+            filteredNoteList.remove(at: indexPath.row)
+        }
         collectionView.deleteItems(at: [indexPath])
-    
+        updateEmptyState()
     }
-
     
     func onUpdate(folder: FolderModels) {
-        print("Updating folder with ID:", folder.id)
         for (index, existingFolder) in noteList.enumerated() {
-            print("Folder at index", index, "has ID:", existingFolder.id)
             if existingFolder.id == folder.id {
-                // Update the folder in the array
                 noteList[index] = folder
-                // Reload only the updated item instead of reloading the entire collection view
                 collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
-                print("Folder updated successfully")
+                updateEmptyState()
                 return
             }
         }
-        print("Folder not found")
     }
-
-
-
-
     
     func onSave(folder: FolderModels) {
         noteList.append(folder)
         collectionView.reloadData()
-        print("Note saved successfully")
+        updateEmptyState()
     }
 }
